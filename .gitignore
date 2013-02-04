@@ -1,0 +1,23 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Maven folders #
+*/target/
+
+
+# IntelliJ files #
+atlassian-ide-plugin.xml
+*.iml
+.idea/
+
+# Eclipse files #
+*/.settings/*
+.classpath
+.project
+
+#Mac File#
+*.DS_Store
