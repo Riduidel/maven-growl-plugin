@@ -1,6 +1,8 @@
 # maven-growl-plugin #
 
-A maven execution listener that sends growl notifications during build.
+A set of maven tools allowing growl messages sending.
+
+As this project started as a maven plugin, the github name wasn't changed. However this project contains more than a simple maven-growl-plugin allowing arbitrary message sending. There is also a maven extension (or lifecycle spy) listening to maven build in order to fire messages.
 
 Notification quantity and quality is configurable, of course **not**.
 

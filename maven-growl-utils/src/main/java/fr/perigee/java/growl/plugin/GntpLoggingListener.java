@@ -13,10 +13,16 @@ import com.google.code.jgntp.GntpNotification;
  */
 public class GntpLoggingListener implements GntpListener {
 
+	/**
+	 * Used logger
+	 */
 	private Log log;
-	private AbstractNotifier source;
+	/**
+	 * Source object for which we want to output logs
+	 */
+	private Object source;
 
-	public GntpLoggingListener(Log log, AbstractNotifier source) {
+	public GntpLoggingListener(Log log, Object source) {
 		this.log = log;
 		this.source = source;
 	}

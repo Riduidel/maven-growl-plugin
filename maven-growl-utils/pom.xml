@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<relativePath>..</relativePath>
+		<groupId>fr.perigee.java</groupId>
+		<artifactId>maven-growl</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>maven-growl-utils</artifactId>
+	<description>Utility code shared amongst the various incarnations of that maven growler</description>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.jgntp</groupId>
+			<artifactId>jgntp</artifactId>
+		</dependency>
+	</dependencies>
+</project>
