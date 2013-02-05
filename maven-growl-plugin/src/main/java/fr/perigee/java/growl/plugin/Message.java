@@ -81,6 +81,7 @@ public class Message extends AbstractMojo {
 			GntpClient client = obtainClient();
 			client.register();
 			notify(client);
+			TimeUnit.SECONDS.sleep(GrowlUtils.SHUTDOWN_DELAY);
 			client.shutdown(GrowlUtils.SHUTDOWN_DELAY, TimeUnit.SECONDS);
 		} catch(Exception e) {
 			throw new MojoExecutionException("unable to run GNTP client correctly", e);
