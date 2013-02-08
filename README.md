@@ -1,3 +1,5 @@
+[![Build Status](https://buildhive.cloudbees.com/job/Riduidel/job/maven-growl-plugin/badge/icon)](https://buildhive.cloudbees.com/job/Riduidel/job/maven-growl-plugin/)
+
 # maven-growl-plugin #
 
 A set of maven tools allowing growl messages sending.
