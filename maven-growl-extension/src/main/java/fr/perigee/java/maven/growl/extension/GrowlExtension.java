@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 
 import org.apache.maven.cli.ExecutionEventLogger;
+import org.apache.maven.eventspy.EventSpy;
 import org.apache.maven.execution.AbstractExecutionListener;
 import org.apache.maven.execution.ExecutionEvent;
 import org.apache.maven.execution.ExecutionListener;
@@ -29,13 +30,11 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationExce
 @Component( role = ExecutionListener.class, hint = "growl-notification" )
 public class GrowlExtension
     extends AbstractExecutionListener
-    implements Initializable
+    implements Initializable // possible to implement EventSpy
 {
     public static final String MAVEN_EXTENSION = "maven-growl-extension";
 
     public static final String PREFIX = Gntp.APP_SPECIFIC_HEADER_PREFIX + MAVEN_EXTENSION;
-
-    ;
 
     private GntpClient client;
 
@@ -44,11 +43,11 @@ public class GrowlExtension
     @Requirement
     private Logger logger;
 
-    private ExecutionEventLogger delegate;
+    private ExecutionListener delegate;
 
     public GrowlExtension()
     {
-
+        // no op
     }
 
 
@@ -58,6 +57,11 @@ public class GrowlExtension
     {
         applicationInfo = Gntp.appInfo( MAVEN_EXTENSION ).build();
         this.delegate = new ExecutionEventLogger( logger );
+    }
+
+    public void configure(ExecutionListener executionListener)
+    {
+        this.delegate = executionListener;
     }
 
     @Override

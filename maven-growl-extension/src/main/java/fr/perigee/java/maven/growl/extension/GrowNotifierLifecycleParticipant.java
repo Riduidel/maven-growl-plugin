@@ -33,12 +33,14 @@ public class GrowNotifierLifecycleParticipant
     extends AbstractMavenLifecycleParticipant
 {
     @Requirement( role = ExecutionListener.class, hint = "growl-notification" )
-    private ExecutionListener executionListener;
+    private GrowlExtension executionListener;
 
     @Override
     public void afterSessionStart( MavenSession session )
         throws MavenExecutionException
     {
+        // initialize delegate
+        executionListener.configure( session.getRequest().getExecutionListener() );
         session.getRequest().setExecutionListener( executionListener );
     }
 }
