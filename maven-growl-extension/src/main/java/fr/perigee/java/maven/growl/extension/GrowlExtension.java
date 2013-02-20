@@ -30,7 +30,10 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationExce
 @Component( role = ExecutionListener.class, hint = "growl-notification" )
 public class GrowlExtension
     extends AbstractExecutionListener
-    implements Initializable // possible to implement EventSpy
+    implements Initializable
+    // possible to implement org.apache.maven.eventspy.EventSpy
+    // but the interface need to do a lot of instance of
+    // IMHO that's a very crappy design
 {
     public static final String MAVEN_EXTENSION = "maven-growl-extension";
 
