@@ -32,6 +32,6 @@ Then go in `maven-growl-extension/target`, pick the `maven-growl-extension-${pro
 
 # History #
 
-I was fed up with those build ending silently and never stopping my procrastination. In the same time, growl send me nice notifications from Pidgin, Foobar2000 and others. I added 1 and 1 in my brain and decided it would be cool to have maven send me nice messages during build. So I started. Writing the maven plugin was strightforward, but it didn't allow me to follow any build, which was stupid. So i left the whole thing aside.
+I was fed up with those build ending silently and never stopping my procrastination. In the same time, growl send me nice notifications from Pidgin, Foobar2000 and others. I added 1 and 1 in my brain and decided it would be cool to have maven send me nice messages during build. So I started. Writing the maven plugin was straightforward, but it didn't allow me to follow any build, which was stupid. So I left the whole thing aside.
 
 Then, one day, @olamy told me it was possible to use maven extension to follow any running build. He goes as far as writing a [gist](https://gist.github.com/4708014) explaining the whole thing. And voila !
