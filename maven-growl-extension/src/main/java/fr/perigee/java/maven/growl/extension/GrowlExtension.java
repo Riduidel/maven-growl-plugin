@@ -29,22 +29,79 @@ import fr.perigee.java.growl.plugin.GrowlUtils;
 /**
  * A maven execution listener sending various notifications on various build
  * events. When started, it immediatly instanciates a long-term growl client
- * that will be used to send all events
+ * that will be used to send all events.
+ *
+ * <h1>How to configure</h1>
+ * To configure that, there are some useful properties.
+ * All of them can be defined in user settings.xml or in project.
+ * <h2>Define global settings in settings.xml</h2>
+ *
+ * That's quite easy ... in a sense :
+ *
+ * <pre>
+ *     <profiles>
+ *         <profile>
+ *             <id>maven-growl-extension</id>
+ *             <properties>
+ *                 <!-- see properties below -->
+ *             </properties>
+ *         </profile>
+ *         ...
+ *     </profiles>
+ *     ...
+ *     <activeProfiles>
+ *         <activeProfile>maven-growl-extension</activeProfile>
+ *     </activeProfiles>
+ * </pre>
+ * <h2>Define project-local settings</h2>
+ * That you already know, no ?
+ * <pre>
+ *     <properties>
+ *         ...
+ *         <!-- Your project properties -->
+ *         <!-- see properties below -->
+ *     </properties>
+ * </pre>
+ *
+ * <h1>Used properties</h1>
+ * Few are the used properties
+ * <h2>{@value #EVENTS_TYPES}</h2>
+ * Contains a list of values (pulled from ExecutionListener.Type) separated by the ',' character.  More info
+ * on that parameter can be found in #loadNotifyingEvents
+ *
+ * <h1>Why an ExecutionListene</h1>
+ * In maven, there are other interfaces that could have taken that role, but, as @olamy said once
+ * <blockquote>
+possible to implement org.apache.maven.eventspy.EventSpy but the interface need to do a lot of instance of
+IMHO that's a very crappy design
+ * </blockquote>
+ * Yes, Olivier, indeed, the current interface allowed me to easily distinguish between extension startup
+ * (in #sessionStarted and #projectStarted) and other extensions methods, which simply notify growl according to configuration.
  * 
  * @author ndx
  */
 @Component(role = ExecutionListener.class, hint = "growl-notification")
 public class GrowlExtension extends AbstractExecutionListener implements Initializable
-// possible to implement org.apache.maven.eventspy.EventSpy
-// but the interface need to do a lot of instance of
-// IMHO that's a very crappy design
 {
+    /**
+     * Constant containing the name of the property used to list the event types for which a notification will be sent
+     * @see #loadNotifyingEvents(java.util.Properties)
+     */
 	private static final String EVENTS_TYPES = "maven-growl-extension.events.types";
 
+    /**
+     * identifier used for growl application
+     */
 	public static final String MAVEN_EXTENSION = "maven-growl-extension";
 
+    /**
+     * Prefix used for all additionnal headers
+     */
 	public static final String PREFIX = Gntp.APP_SPECIFIC_HEADER_PREFIX + MAVEN_EXTENSION;
 
+    /**
+     * Component used to fire notifications to growl
+     */
 	private GntpClient client;
 
 	private GntpApplicationInfo applicationInfo;
@@ -52,21 +109,30 @@ public class GrowlExtension extends AbstractExecutionListener implements Initial
 	@Requirement
 	private Logger logger;
 
+    /**
+     * the next executor in stack ... existing just because of a feature lack in maven
+     * @see http://t.co/xyiEMyVH
+     */
 	private ExecutionListener delegate;
 
+    /**
+     * events for which notifications will be sent.
+     * Defaults to
+     ExecutionEvent.Type.ProjectStarted,
+     ExecutionEvent.Type.ProjectSucceeded,
+     ExecutionEvent.Type.ProjectFailed
+     */
 	private List<Type> notifyingEvents = Arrays.asList(
 					// project lifecycle main events
 					ExecutionEvent.Type.ProjectStarted, 
 					ExecutionEvent.Type.ProjectSucceeded, 
-					ExecutionEvent.Type.ProjectFailed);
-
-	public GrowlExtension() {
-	}
+					ExecutionEvent.Type.ProjectFailed
+    );
 
 	@Override
 	public void initialize() throws InitializationException {
 		applicationInfo = Gntp.appInfo(MAVEN_EXTENSION).icon(GrowlUtils.getIcon()).build();
-		this.delegate = new ExecutionEventLogger(logger);
+		delegate = new ExecutionEventLogger(logger);
 	}
 
 	public void configure(ExecutionListener executionListener) {
