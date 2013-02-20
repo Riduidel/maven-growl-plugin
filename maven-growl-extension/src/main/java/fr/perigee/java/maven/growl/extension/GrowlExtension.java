@@ -37,6 +37,7 @@ public class GrowlExtension extends AbstractExecutionListener {
 	@Override
 	public void sessionStarted(ExecutionEvent event) {
 		client = Gntp.client(applicationInfo).build();
+		client.register();
 	}
 	
 	@Override
@@ -69,11 +70,7 @@ public class GrowlExtension extends AbstractExecutionListener {
 	 */
 	private void notify(ExecutionEvent event) {
 		GntpNotification notification = notificationFor(event);
-		try {
-			client.notify(notification, 1, TimeUnit.SECONDS);
-		} catch (InterruptedException e) {
-			logger.log(Level.SEVERE, "unable to send notification "+notification, e);
-		}
+		client.notify(notification);
 	}
 
 	/**
